@@ -5,7 +5,7 @@ body {
 }
 
 a {
-    color: #00abff;
+    color: #543ab3;
     text-decoration: none;
 }
 
@@ -22,16 +22,28 @@ h2 {
 
 #content {
     float: left;
-    width: 60%;
-    padding: 0 0 0 30px;
+    width: 720px;
+    border: 5px solid green;
+    padding: 50px;
+    margin: 20px;
+    background-color: rgb(196, 204, 203);
 }
 
 #sidebar {
     float: right;
-    width: 30%;
-    padding: 10px;
-    background: #efefef;
+    width: 400px;
+    padding: 20px;
     height: 100%;
+    border: 1px solid green;
+    margin: 20px;
+    background-color: rgb(219, 201, 201);
+}
+
+#ipost {
+    background-color: #f6f5fa;
+    border: 2px solid green;
+    margin: 20px;
+    padding: auto;
 }
 
 p.date {

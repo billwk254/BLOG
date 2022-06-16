@@ -10,11 +10,13 @@
     </p>
     {% else %}
         <h1>Share "{{post.title}}" by E-mail</h1>
-        <form method="post">
-            {{form.as_p}}
-            {% csrf_token %}
-            <input type="submit" value="Send e-mail">
-        </form>
+        <div class="form">
+            <form method="post">
+                {{form.as_p}}
+                {% csrf_token %}
+                <input type="submit" value="Send e-mail">
+            </form>
+        </div>
 {% endif %}
 {% endblock %}
 

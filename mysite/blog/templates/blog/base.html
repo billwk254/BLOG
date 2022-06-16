@@ -3,30 +3,428 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{%block title%}{%endblock%}</title>
-        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
-    </head>
-    <body>
-        <div id="content">
-            <h1><a href="{% url 'blog:post_list' %}">HOME</a></h1>
-            {%block content %}
-            {% endblock %}
-        </div>
-        <div id="sidebar">
-            <h2>My Blog</h2>
-            <p>This is my blog. I've written {% total_posts %} posts so far.</p> 
-        <h3>Latest Posts</h3>
-        {% show_latest_posts 3 %}
-        <h3>Most Commented posts</h3>
-        {% get_most_commented_posts as most_commented_posts %}
-        <ul>
-            {% for post in most_commented_posts %}
-                <li>
-                    <a href="{{ post.get_absolute_url}}"> {{post.title}}</a>
+        <style>
+          .featured-image-list{
+            object-fit: cover;
+        }
+          p.tags{
+            color: #ffffff
+          }
+            input[type=submit] {
+                background-color: #4CAF50;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+              }
 
-                </li>
-            {% endfor %}
-        </ul>
+            input[type=submit]:hover {
+                background-color: #45a049;
+              }
+            
+              input {
+                width: 100%;
+                background-color: #3CBC8D;
+              }
+
+              input:focus {
+                background-color: lightblue;
+              }
+
+            .form {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+                margin-bottom: 50px;
+              }
+            
+              .tag-div {
+                position: relative;
+                animation-name: 'example6';
+                animation-duration: 3s;
+                color: black;
+                width: 60%;
+                animation-fill-mode: forwards;
+
+              }
+
+            .container-fluid {
+              float: left;
+              width: 75%;
+              background-image: url("{% static 'images/blogbg.jpg' %}");
+              background-repeat: repeat-x repeat-y;
+            }
+
+           
+            .container-right{
+                padding-top: 70px;
+                padding-bottom: 70px;
+                
+             }
+             body {
+              margin: 0;
+              font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .no_posts{
+              text-decoration: underline;
+              text-align: center;
+              font-family:"Comic Sans MS", cursive, sans-serif;
+              color: 	#e6e6ff
+
+            }
+             .navbar {
+                width: 100%;
+                background-color: #555;
+                overflow: auto;
+                position: fixed;
+              }
+
+              .navbar a {
+                float: left;
+                text-align: center;
+                padding: 12px;
+                color: green;
+                text-decoration: none;
+                font-size: 17px;
+              }
+              .textbody {
+                  background-color: white;
+                  padding-top: 30px;
+                 padding-bottom: 30px;
+                 padding-left: 30px;
+                padding-right: 30px;
+                width: 750px;
+                height: 750px;
+
+              }
+
+              .whole-post{
+                background-image: url("{% static 'images/de.png' %}");
+                
+              }
+              
+              a:link, a:visited {
+                background-color: #f44336;
+                color: white;
+                padding: 14px 25px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+              }
+
+              a:hover, a:active {
+                background-color: red;
+              }
+
+              .similar_posts{
+                margin-top: 50px;
+                margin-bottom: 50px;
+                border: 5px solid grey;
+                background-color: white;
+
+              }
+              .sidenav {
+                  float: left;
+                  width: 25%;
+                  background-color: #f1f1f1;
+                  padding-left: 20px;
+              }
+
+              .latest{
+                  background-color: #ffe6e6;
+                  padding: 20px;
+                  margin-top: 20px;
+                  margin-bottom: 20px;
+              }
+              .navbar a:hover {
+                background-color: #000;
+              }
+              .active {
+                background-color: #4CAF50;
+              }
+              @media screen and (max-width: 500px) {
+                .navbar a {
+                  float: none;
+                  display: block;
+                }
+              }
+
+              h2.title {
+                text-decoration: underline;
+                text-transform: capitalize;
+                text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+                font-family: 'Impact', 'Charcoal', 'sans-serif';
+              }
+
+              div.postlist {
+                  font-family: "Times New Roman", 'Times', 'serif';
+                  border-radius: 25p;
+                  animation: mymove 10s;
+                  border: 5px solid gray;
+                  position: relative;
+                  animation-name: 'example5';
+                  animation-duration: 3s;
+                  background: #33001a;  
+                  animation-fill-mode: forwards;
+                  padding: 20px;
+                  margin-top: 20px;
+                  transition: width 2s, height 4s;
+              }
+              .postlist:hover{
+                border: 10px solid black;
+                margin-bottom: 50px;
+
+              } 
+              h1{
+                font-style: italic;
+                font-size: 40px;
+                font-weight: bold;
+                color: white;
+                margin-bottom: 20px;
+              }
+              .personal-text{
+                font-style: italic;
+                font-size: 40px;
+                font-weight: bold;
+                text-align: center;
+
+              }
+
+              .title-author{
+                line-height: 1.8;
+                text-shadow: 3px 2px red;
+                color: white;
+              }
+
+              .info{
+                font-style: oblique;
+                font-size: 15px;
+                font-weight: bold;
+                padding: 40px;
+                color: 	#ff0040;
+                text-decoration: underline;
+                background-color: black;
+              }
+
+              h2{
+                text-shadow: 3px 2px red;
+                color: white;
+                font-size: 12px;
+                margin-top: 15px;
+                margin-bottom: 30px;
+              }
+
+              h1.post{
+                text-decoration: underline;
+                text-transform: uppercase;
+                color: black;
+                font-weight: bold;
+                font-size: 40px;
+                text-align: center;
+                margin-top: 50px;
+                margin-bottom: 50px;
+                text-shadow: 5px 4px green;
+              }
+
+              .personal{
+                width: 100px;
+                height: 100px;
+                background-color: green;
+                position: relative;
+                animation-name: 'example';
+                animation-duration: 3s;
+                text-align: center;
+                text-transform: uppercase;
+                animation-direction: alternate-reverse;
+              }
+              .personal2{
+              width: 100px;
+              height: 100px;
+              background: red;
+              position: relative;
+              animation-name: 'example2';
+              animation-duration: 3s;
+              animation-fill-mode: forwards;
+              }
+              .personal3{
+                width: 100px;
+                height: 100px;
+                margin-top: 0px;
+                background: red;
+                position: relative;
+                animation-name: 'example3';
+                animation-duration: 3s;
+                animation-fill-mode: forwards;
+                
+                }
+
+                .personal4{
+                  width: 100px;
+                  height: 100px;
+                  margin-top: 0px;
+                  background: red;
+                  position: relative;
+                  animation-name: 'example4';
+                  animation-duration: 3s;
+                  animation-fill-mode: forwards;
+                  
+                  }
+                
+                .ptext3{   
+                    font-style: italic;
+                    font-size: 40px;
+                    font-weight: bold;
+                    text-align: center;
+                  }
+                .ptext2{   
+                  font-style: italic;
+                  font-size: 40px;
+                  font-weight: bold;
+                  text-align: center;
+                }
+
+              .ptext{   
+                font-style: italic;
+                font-size: 40px;
+                font-weight: bold;
+                text-align: center;
+              }
+
+              @keyframes example5 {
+                0%   {background-color:red; left:0px; top:0px;}
+                50%  {background-color:blue; top:10px;}
+                75%  {background-color:green; left:0px; bottom:100px;}
+                100% {background-image: url("{% static 'images/blog.jpg' %}");  left:0px; bottom:220px; delay:5s}
+              }
+              
+
+
+              @keyframes example4 {
+                from{top: -100px; background-color: blue;}
+                to{bottom: 300px; background-color: #ff8000;}
+                to{left: 550px; background-color: grey; }
+                
+              }
+
+              @keyframes example2 {
+                from {top: 0px; background-color: yellow;}
+                to {left: 175px; background-color:maroon; delay: 0.5s;}
+                to{bottom: 100px; background-color:#9999ff; delay: 3s;}
+                
+              }
+              @keyframes example {
+                0%   {background-color:red; left:0px; top:0px;}
+                25%  {background-color:yellow; left:150px; top:0px;}
+                50%  {background-color:blue; left:150px; top:100px;}
+                75%  {background-color:green; left:0px; top:100px;}
+                100% {background-color:red; left:50px; top:100px;}
+              }
+
+              @keyframes example6 {
+                0%   {background-color:red; left:0px; top:0px;}
+                25%  {background-color:yellow; left:150px; top:0px;}
+                50%  {background-color:blue; left:150px; bottom:100px;}
+                75%  {background-color:green; left:0px; bottom:150px;}
+                100% {background-color:black; left:0px; bottom:250px;}
+              }
+
+              @keyframes example3 {
+                0%   {background-color:red; left:0px; top:10px;}
+                100%  {background-color:yellow; left:350px; bottom: 200px;}
+                
+
+              }
+              @keyframes mymove {
+                50% {background-color: blue;}
+              }
+             
+
+              div.list-body {
+                background: white;
+                text-align: left;
+                font-size: 20px;
+              }
+            
+
+              p.date{
+                font-family:"Comic Sans MS", cursive, sans-serif;
+                color: #ffffff;
+                font-style: italic;
+                font-size: 12px;
+                font-weight: bold;
+
+              }
+
+              .title-tags{
+                margin: 20px 20px 20px 0px;
+                padding: 20px;
+                font-size: 20px;
+              }
+
+
+              * {
+                box-sizing: border-box;
+              }
+              .container {
+                position: relative;
+                width: 50%;
+              }
+              
+              .image {
+                display: block;
+                width: 80%;
+                height: auto;
+              }
+              .header {
+                padding: 30px;
+                text-align: center;
+                background: black;
+              }
+              
+              @media screen and (max-width: 800px) {
+                .container-fluid, .sidenav {   
+                  width: 100%;
+                  padding: 0;
+                }
+              }
+              
+            </style> 
+        <title>{%block title%}{%endblock%}</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    </head>
+    <div class="navbar">
+        <a class="active" href="{% url 'blog:post_list' %}"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
+      </div>
+    <body>
+        <div class="row">
+            <div class="col-md-8 container-fluid">
+                <div id="content" class="container">
+                    {%block content %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class ="col-md-4 sidenav">
+                <p class='no_posts'>This is my blog. I've written {% total_posts %} posts so far.</p> 
+                <div class ="latest">
+                    <h3>Latest Posts</h3>
+                    {% show_latest_posts 3 %}
+                </div>
+                <div class ="latest">
+                  <h3>Most Commented posts</h3>
+                  {% get_most_commented_posts as most_commented_posts %}
+                  <ol>
+                      {% for post in most_commented_posts %}
+                          <li>
+                              <a href="{{ post.get_absolute_url}}"> {{post.title}}</a>
+
+                          </li>
+                      {% endfor %}
+                  </ol>
+              </div>
+            </div>
         </div>
     </body>
-    </html>
+</html>

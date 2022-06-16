@@ -2,50 +2,73 @@
 
 {%block title %} {{post.title}}{% endblock %}  
 {%block content %}
-<h1> {{post.title}}</h1>
-<p class='date'>
-    Published {{post.publish}} by {{post.author}}
-</p>
-{{post.body|linebreaks}}
-<p>
+<div class="whole-post">
+    <div class="title-author">
+        <h1 class='post'> {{post.title}}</h1>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{post.title}}" class="image">
+        {% else %}
+            <p></p>
+        {% endif %}
+        <p class='date'>
+            Published {{post.publish}} by {{post.author}}
+        </p>
+    </div>
+    <div class='textbody'>
+    <p class='lead'>
+        <p class='text-center'>
+            {{post.body|linebreaks}}
+        </p>
+    </p>
+    </div>
+</div>
+<div class='post'>
     <a href="{%url 'blog:post_share' post.id %}">
         Share this post.  
     </a>
-</p>
-</p>
-<h2>Similar posts</h2>
-{%for post in similar_posts %}
-    <p>
-        <a href="{{post.get_absolute_url}}"> {{post.title}}</a>
-    </p>
-{% empty %}
-    There are no Similar posts yet.
-{% endfor %}
-{% with comments.count as total_comments %}
-<h2>
-    {{total_comments}} comment {{total_comments|pluralize}}
-</h2>
-{% endwith %}
-{%for comment in comments %}
-    <div class="comment">
-        <p class='info'> 
-            Comment {{forloop.counter}} by {{comment.name}}
-            {{comment.created}}
+</div>
+<div class="similar_posts">
+    <h2>Similar posts</h2>
+    {%for post in similar_posts %}
+        <p>
+            <a href="{{post.get_absolute_url}}"> {{post.title}}</a>
         </p>
-        {{comment.body|linebreaks}}
-    </div>
-{% empty %}
-    <p>There are no comments yet.</p>
-{% endfor %}
+    {% empty %}
+        There are no Similar posts yet.
+    {% endfor %}
+</div>
+
 {% if new_comment %}
     <h2>Your comment has been added</h2>
 {% else %}
     <h2>Add a new comment</h2>
+<div class="form">
     <form method='post'>
         {{comment_form.as_p}}
         {% csrf_token %}
         <p><input type='submit' value='Add Comment'></p>
     </form>
+</div>
 {% endif %}
+
+{% with comments.count as total_comments %}
+<h2>
+    {{total_comments}} comment {{total_comments|pluralize}}
+</h2>
+
+{% endwith %}
+{%for comment in comments %}
+    <div class="comment">
+        <p class='info'> 
+            Comment {{forloop.counter}} by {{comment.name}} on
+            {{comment.created}}
+        </p>
+        <p class='comment'>
+             {{comment.body|linebreaks}}
+        </p>
+    </div>
+{% empty %}
+    <h2>There are no comments yet.</h2>
+{% endfor %}
 
 {% endblock %}

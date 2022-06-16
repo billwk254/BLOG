@@ -22,7 +22,7 @@ def post_share(request, post_id):
             sent = True
     else:
         form = EmailPostForm()
-    return render(request, 'blog/post/share.html',{'post':post,'form':form,'sent':sent})
+    return render(request, 'blog/post/share.html',{'post':post,'form':form,'sent':sent,})
 
 def post_list(request, tag_slug=None):
     object_list = Post.published.all()
@@ -41,7 +41,7 @@ def post_list(request, tag_slug=None):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     return render(request, 'blog/post/list.html', {'page':page,
-    'posts':posts,'tag':tag})
+    'posts':posts,'tag':tag,})
 
 
 class PostListView(ListView):
