@@ -1,4 +1,6 @@
 {%extends 'blog/base.html' %}
+{% load blog_tags %}
+{% load social_share %}
 
 {%block title %} {{post.title}}{% endblock %}  
 {%block content %}
@@ -6,26 +8,29 @@
     <div class="title-author">
         <h1 class='post'> {{post.title}}</h1>
         {% if post.image %}
-            <img src="{{ post.image.url }}" alt="{{post.title}}" class="image">
+            <img src="{{ post.image.url }}" alt="{{post.title}}" class="img">
         {% else %}
             <p></p>
         {% endif %}
+       
+    </div>
+    <div class='textbody'>
         <p class='date'>
             Published {{post.publish}} by {{post.author}}
         </p>
-    </div>
-    <div class='textbody'>
-    <p class='lead'>
         <p class='text-center'>
-            {{post.body|linebreaks}}
+            {{post.body|markdown}}
         </p>
-    </p>
     </div>
 </div>
 <div class='post'>
     <a href="{%url 'blog:post_share' post.id %}">
-        Share this post.  
+        Share Via Email!
     </a>
+    {% post_to_facebook object_or_url "Post to Facebook!" %}
+    {% post_to_whatsapp  object_or_url "Share on WhatsApp!" %}
+    {% post_to_reddit  object_or_url "Share on Reddit!" %}
+    {% post_to_twitter  object_or_url "Share on Twitter!" %}
 </div>
 <div class="similar_posts">
     <h2>Similar posts</h2>
@@ -52,18 +57,17 @@
 {% endif %}
 
 {% with comments.count as total_comments %}
-<h2>
-    {{total_comments}} comment {{total_comments|pluralize}}
-</h2>
-
+        <h2>
+            {{total_comments}} comment {{total_comments|pluralize}}
+        </h2>
 {% endwith %}
 {%for comment in comments %}
-    <div class="comment">
-        <p class='info'> 
+    <div class="comments">
+        <p class='comment'> 
             Comment {{forloop.counter}} by {{comment.name}} on
             {{comment.created}}
         </p>
-        <p class='comment'>
+        <p class='comment-body'>
              {{comment.body|linebreaks}}
         </p>
     </div>

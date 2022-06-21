@@ -1,56 +1,46 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
 
 {%block title %}MY BLOG{% endblock %}  
 {%block content %}
-<div class="header">
-    <div class="personal col-md-3">
-    <p class="personal-text">B</p>
-    </div>
-    <div class ="personal2 col-md-3">
-        <p class="ptext">L</p>
-    </div>
-    <div class ="personal3 col-md-3">
-        <p class="ptext2">0</p>
-    </div>
-    <div class ="personal4 col-md-3">
-        <p class="ptext3">G</p>
-    </div>
-</div>
-<div class ="tag-div"> 
+ 
     {% if tag %}
-    <h2>Posts tagged with "{{ tag.name }}"</h2>
+    <h2 class="filter-tags">Posts tagged with "{{ tag.name }}"</h2>
 {% endif %}
-</div>
 
 
     {%for post in posts%}
-    <div class="postlist">
-        <div class="title-tags">
-            <h2 class = 'title'>
-                <a class="post-url" href="{{post.get_absolute_url}}">
-                    {{post.title}}
-                </a>
-            </h2>
-            <p class="tags">
-                Tags: 
-                {% for tag in post.tags.all %}
-                    <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }} </a>
-                    {% if not forloop.last %}, 
-                    {% endif %}
-                {% endfor %}
+        <div class="card">
+                    <a class="post-url" href="{{post.get_absolute_url}}">
+                        {{post.title}}
+                    </a>
+            {%if post.image %}
+            <div class="image">
+            <img class='img' src="{{ post.image.url }}">
+            </div>
+            {% endif %}
+                <p class="tags">
+                    Tags: 
+                    {% for tag in post.tags.all %}
+                        <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }} </a>
+                        {% if not forloop.last %}, 
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            <p class = 'date'>
+                Published {{post.publish}} by {{post.author}}
             </p>
-        </div>
-        <p class = 'date'>
-            Published {{post.publish}} by {{post.author}}
-        </p>
 
-        <div class ="list-body">
-            {{post.body|truncatewords:30|linebreaks}}
+            <div class ="list-body">
+                {{post.body|markdown|truncatewords_html:30}}
+            </div>
         </div>
 
-    </div>
+    
 {% endfor %}  
+<div class="footer">
     <p> {% include 'pagination.html' with page=posts %}
 
     </p>
+</div>
 {% endblock %}      
