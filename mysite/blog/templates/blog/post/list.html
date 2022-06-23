@@ -11,9 +11,11 @@
 
     {%for post in posts%}
         <div class="card">
+            <div class='list-title'>
                     <a class="post-url" href="{{post.get_absolute_url}}">
                         {{post.title}}
                     </a>
+            </div>
             {%if post.image %}
             <div class="image">
             <img class='img' src="{{ post.image.url }}">
@@ -27,11 +29,11 @@
                         {% endif %}
                     {% endfor %}
                 </p>
-            <p class = 'date'>
-                Published {{post.publish}} by {{post.author}}
-            </p>
 
             <div class ="list-body">
+                <p class = 'date'>
+                    Published {{post.publish}} by {{post.author}}
+                </p>
                 {{post.body|markdown|truncatewords_html:30}}
             </div>
         </div>

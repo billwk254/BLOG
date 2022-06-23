@@ -195,15 +195,8 @@
             text-transform: uppercase;
             color: black;
             font-weight: bold;
-            font-size: 40px;
+            font-size: 30px;
             text-align: center;
-            margin: 50px;
-            transition: font-size 0.5s, background-color 0.5s;
-        }
-        
-        h1.post:hover {
-            background-color: #809966;
-            font-size: 50px;
         }
         
         .personal {
@@ -249,7 +242,7 @@
             font-family: "Comic Sans MS", cursive, sans-serif;
             color: black;
             font-style: italic;
-            font-size: 15px;
+            font-size: 10px;
             font-weight: bold;
             margin-top: 35px;
             margin-bottom: 35px;
@@ -265,16 +258,21 @@
             width: 50%;
         }
         
+        .list-title {
+            margin: auto;
+            width: 50%;
+            text-align: center;
+        }
+        
         .image {
-            background-color: #aaa;
             padding: 20px;
         }
         
         .img {
             display: block;
-            margin-left: 30px;
-            margin-right: 30px;
-            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            width: 60%;
         }
         
         .header h1 {
@@ -334,10 +332,11 @@
             font-size: 40px;
             text-align: center;
             text-transform: uppercase;
+            color: black;
         }
         
         .list-body {
-            font-size: 25px;
+            font-size: 15px;
             border: 2px dotted black;
             background-color: #808080;
             margin-top: 35px;
