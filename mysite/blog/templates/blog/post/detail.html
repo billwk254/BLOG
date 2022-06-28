@@ -1,12 +1,16 @@
 {%extends 'blog/base.html' %}
 {% load blog_tags %}
 {% load social_share %}
+{% load static %}
 
 {%block title %} {{post.title}}{% endblock %}  
 {%block content %}
 <div class="whole-post">
     <div class="title-author">
         <h1 class='post'> {{post.title}}</h1>
+        <p class='date'>
+            Published  <img class="small-img" src="{% static 'images/calendar.png'%}">{{post.publish}} by {{post.author}} <img class="small-img" src="{% static 'images/avatar.png'%}">
+        </p>
         {% if post.image %}
             <img src="{{ post.image.url }}" alt="{{post.title}}" class="img">
         {% else %}
@@ -15,9 +19,6 @@
        
     </div>
     <div class='textbody'>
-        <p class='date'>
-            Published {{post.publish}} by {{post.author}}
-        </p>
         <p class='text-center'>
             {{post.body|markdown}}
         </p>
@@ -27,10 +28,11 @@
     <a href="{%url 'blog:post_share' post.id %}">
         Share Via Email!
     </a>
-    {% post_to_facebook object_or_url "Post to Facebook!" %}
-    {% post_to_whatsapp  object_or_url "Share on WhatsApp!" %}
-    {% post_to_reddit  object_or_url "Share on Reddit!" %}
-    {% post_to_twitter  object_or_url "Share on Twitter!" %}
+    <img src="{% static 'images/mail.png' %}" class="icon">
+    {% post_to_facebook object_or_url "Post to Facebook" %}<img src="{% static 'images/facebook.png' %}" class="icon">
+    {% post_to_whatsapp  object_or_url "Share on WhatsApp" %}<img src="{% static 'images/whatsapp.png' %}" class="icon">
+    {% post_to_reddit  object_or_url "Share on Reddit" %}<img src="{% static 'images/reddit.png' %}" class="icon">
+    {% post_to_twitter  object_or_url "Share on Twitter" %}<img src="{% static 'images/twitter.png' %}" class="icon">
 </div>
 <div class="similar_posts">
     <h2>Similar posts</h2>

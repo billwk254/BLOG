@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% load blog_tags %}
+{% load static %}
 
 {%block title %}MY BLOG{% endblock %}  
 {%block content %}
@@ -31,8 +32,8 @@
                 </p>
 
             <div class ="list-body">
-                <p class = 'date'>
-                    Published {{post.publish}} by {{post.author}}
+                <p class='date'>
+                    Published  <img class="small-img" src="{% static 'images/calendar.png'%}">{{post.publish}} by {{post.author}} <img class="small-img" src="{% static 'images/avatar.png'%}">
                 </p>
                 {{post.body|markdown|truncatewords_html:30}}
             </div>
