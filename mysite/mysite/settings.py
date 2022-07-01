@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import django_heroku
 
-django_heroku.settings(locals())
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -155,3 +154,5 @@ EMAIL_USE_TLS = True
 import dj_database_url 
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+django_heroku.settings(locals())
