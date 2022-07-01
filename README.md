@@ -1,4 +1,6 @@
- # BLOG 
+https://wamboo-blog.herokuapp.com/ 
+
+# BLOG 
 
 Blog is a full-featured django blog app. Users can view blog posts, comment on posts, search posts, share posts and filter posts by a tag. The author of the blog can add new entries, hide inappropriate comments, Delete blog entries and add tags to every post to help in finding similar articles. 
 
